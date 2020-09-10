@@ -2,30 +2,26 @@ import request from '@/utils/request'
 
 export const getUsers = (params: any) =>
     request({
-        url: '/auth/users',
+        url: '/auth/user',
         method: 'get',
         params
     });
-export const getRoles = () =>
-    request({
-        url: '/auth/roles',
-        method: 'get'
-    });
+
 export const createUser = (params: any) =>
     request({
-        url: '/auth/create',
+        url: '/auth/user',
         method: 'post',
         params
     });
 export const delectUser = (params: any) =>
     request({
-        url: '/auth/delect',
-        method: 'put',
+        url: '/auth/user',
+        method: 'delete',
         params
     });
 export const updateUser = (params: any) =>
     request({
-        url: '/auth/update',
+        url: '/auth/user',
         method: 'put',
         params
     });
@@ -72,3 +68,9 @@ export const insert = (data: any) =>
         method: 'post',
         data
     })
+    export const systemLog = (params: any) =>
+    request({
+        url: '/auth/systemLog',
+        method: 'get',
+        params
+    });

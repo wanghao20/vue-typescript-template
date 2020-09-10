@@ -66,7 +66,7 @@ export default class extends Vue {
    */
   private isDashboard(route: RouteRecord) {
     const name = route && route.meta && route.meta.title;
-    return name === "Dashboard";
+    return name === "主页";
   }
 
   /**

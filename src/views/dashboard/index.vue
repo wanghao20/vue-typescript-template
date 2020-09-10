@@ -4,10 +4,7 @@
       用户名称:{{ name }}
     </div>
     <div class="dashboard-text">
-      权限:<span
-        v-for="role in roles"
-        :key="role"
-      >{{ role }}</span>
+      权限:<span>{{ roles }}</span>
     </div>
   </div>
 </template>

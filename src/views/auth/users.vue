@@ -3,14 +3,14 @@
     <!-- 过滤-->
     <div class="filter-container">
       <el-input
-        v-model="listQuery.name"
+        v-model="listQuery.condition.name"
         :placeholder="'用户名'"
         style="width: 200px;"
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
       <el-select
-        v-model="listQuery.roles"
+        v-model="listQuery.condition.roles"
         :placeholder="'角色'"
         clearable
         class="filter-item"
@@ -59,7 +59,7 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">{{ scope.$index }}</template>
-      </el-table-column>
+      </el-table-column> 
       <el-table-column label="用户名">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
@@ -71,32 +71,31 @@
       <el-table-column align="center" prop="created_at" label="创建时间" width="250">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.creationTime}}</span>
+          <span>{{ scope.row.createdTime}}</span>
         </template>
       </el-table-column>
       <!-- 操作按钮 -->
       <el-table-column :label="'操作'" align="center" width="230" class-name="fixed-width">
         <template slot-scope="{row, $index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">{{ "编辑" }}</el-button>
-     
-            <el-popconfirm
-                confirmButtonText='确认'
-                cancelButtonText='取消'
-                icon="el-icon-info"
-                iconColor="red"
-                title="确认删除吗?"
-                @onConfirm="handleDelete(row, $index)"
-             >
-              <el-button
-                v-if="row.status!=='deleted'"
-                size="mini"
-                type="danger"
-                slot="reference"
-                >{{ "删除" }}
-             </el-button>
-            </el-popconfirm>
-        </template>
 
+          <el-popconfirm
+            confirmButtonText="确认"
+            cancelButtonText="取消"
+            icon="el-icon-info"
+            iconColor="red"
+            title="确认删除吗?"
+            @onConfirm="handleDelete(row, $index)"
+            @keyup.enter.native="handleDelete(row, $index)"
+          >
+            <el-button
+              v-if="row.status!=='deleted'"
+              size="mini"
+              type="danger"
+              slot="reference"
+            >{{ "删除" }}</el-button>
+          </el-popconfirm>
+        </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -107,15 +106,8 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-    <!-- 删除提示弹窗 -->
-    <!-- <el-dialog :title="'删除用户'" :visible.sync="dialogFormDelete">
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormDelete = false">{{ "取消" }}</el-button>
-        <el-button type="primary" @click="handleDelete">{{"确认删除" }}</el-button>
-      </div>
-    </el-dialog> -->
-    
-    <!-- 弹窗 -->
+
+    <!-- 弹窗(新建编辑) -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form
         ref="dataForm"
@@ -136,15 +128,26 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item :label="'邮箱地址'" prop="email">
+          <el-input
+            ref="email"
+            v-model="tempUserData.email"
+            name="email"
+            type="text"
+            autocomplete="on"
+            placeholder="输入邮箱地址"
+          />
+        </el-form-item>
         <el-form-item :label="'用户名'" prop="name">
           <el-input
             v-model="tempUserData.name"
             name="name"
             type="text"
             style="width: 200px;"
-            placeholder="请输入用户名"
+            :disabled="true"
           />
         </el-form-item>
+
         <el-form-item :label="'密码'" prop="password">
           <el-input
             v-model="tempUserData.password"
@@ -163,35 +166,19 @@
         >{{"保存" }}</el-button>
       </div>
     </el-dialog>
-    <!-- 弹窗 -->
-    <el-dialog :visible.sync="dialogPageviewsVisible" title="Reading statistics">
-      <el-table :data="pageviewsData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel" />
-        <el-table-column prop="pageviews" label="Pageviews" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPageviewsVisible = false">{{ "提交" }}</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { IArticleData } from "@/api/types";
 import { startLoading, endLoading, formatJson } from "@/utils/common/utils";
 import { exportJson2Excel } from "@/utils/common/excel";
 import { User } from "@/entity/auth/User";
 import { Form, Input } from "element-ui";
 import Pagination from "@/components/Pagination/index.vue";
-import { isValidUsername } from "@/utils/common/validate";
-import {
-  getUsers,
-  createUser,
-  updateUser,
-  getRoles,
-  delectUser,
-} from "@/api/auth/user";
+import { getUsers, createUser, updateUser, delectUser } from "@/api/auth/user";
+import { getRoles } from "@/api/auth/role";
+import { Paging } from "@/utils/Type";
 
 const calendarTypeOptions: any = [];
 @Component({
@@ -202,15 +189,17 @@ const calendarTypeOptions: any = [];
 })
 export default class extends Vue {
   private tableKey = 0;
-  private list: IArticleData[] = [];
+  private list: User[] = [];
   private listLoading = true;
   // 分页对象
   private total = 0;
-  private listQuery = {
+  private listQuery: Paging = {
     page: 1,
     limit: 10,
-    name: "",
-    roles: "",
+    condition: {
+      name: "",
+      roles: "",
+    },
   };
   private downloadLoading = false;
   // 弹窗上的字符
@@ -223,7 +212,6 @@ export default class extends Vue {
     update: "编辑",
     create: "创建",
   };
-  private dialogPageviewsVisible = false;
   //select
   private calendarTypeOptions = calendarTypeOptions;
   private pageviewsData = [];
@@ -233,6 +221,7 @@ export default class extends Vue {
    */
   private saveRules = {
     roles: [{ required: true, message: "必选项", trigger: "change" }],
+    email: [{ required: true, message: "必填项", trigger: "blur" }],
     name: [{ required: true, message: "必填项", trigger: "blur" }],
     password: [{ required: true, message: "必填项", trigger: "blur" }],
   };
@@ -357,7 +346,7 @@ export default class extends Vue {
    */
   private async handleDelete(row: any, index: number) {
     const { data } = await delectUser(row);
-    this.$notify({ 
+    this.$notify({
       title: "成功",
       message: "删除成功",
       type: "success",

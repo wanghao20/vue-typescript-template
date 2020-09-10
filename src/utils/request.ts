@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import BaseUrl from '@/config/baseUrl'
-
+import { Notification } from 'element-ui';
 const service = axios.create({
     baseURL: BaseUrl, // 服务器地址
     timeout: 5000 // 超时time
@@ -35,11 +35,6 @@ service.interceptors.response.use(
         // 您可以更改此部件以供您自己使用。
         const res = response.data
         if (res.code !== 200) {
-            Message({
-                message: res.msg || 'Error',
-                type: 'error',
-                duration: 5 * 1000
-            })
             if (res.code === 401) {
                 MessageBox.confirm(
                     '您已退出，请尝试重新登录.',
@@ -53,13 +48,24 @@ service.interceptors.response.use(
                     UserModule.ResetToken()
                     location.reload() // 防止vue路由器出现错误
                 })
+            } else if (res.code === 403) {
+                Notification({
+                    title: "提示",
+                    message: res.msg,
+                    type: "warning",
+                    duration: 2000,
+                });
+                return response.data
+            } else {
+
+                return Promise.reject(new Error(res.msg || 'Error'))
             }
-            return Promise.reject(new Error(res.msg || 'Error'))
         } else {
             return response.data
         }
     },
     (error) => {
+        console.log(error)
         Message({
             message: error.message,
             type: 'error',

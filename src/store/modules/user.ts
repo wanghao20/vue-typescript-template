@@ -2,13 +2,14 @@ import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-dec
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
 import { login, getUserInfo, logout, insert } from '@/api/auth/user'
+import { resetRouter } from '@/router'
 
 export interface IUserState {
     token: string
     name: string
     avatar: string
     introduction: string
-    roles: string[]
+    roles : string
 }
 
 @Module({ dynamic: true, store, name: 'user' })
@@ -17,7 +18,7 @@ class User extends VuexModule implements IUserState {
     public name = ''
     public avatar = ''
     public introduction = ''
-    public roles: string[] = []
+    public roles: string = ''
 
     @Mutation
     private SET_TOKEN(token: string) {
@@ -40,7 +41,7 @@ class User extends VuexModule implements IUserState {
     }
 
     @Mutation
-    private SET_ROLES(roles: string[]) {
+    private SET_ROLES(roles: string) {
         this.roles = roles
     }
 
@@ -52,18 +53,18 @@ class User extends VuexModule implements IUserState {
     public async Login(userInfo: { username: string, time: string, password: string, captchaCode: string }) {
         let { username, password, captchaCode, time } = userInfo
         username = username.trim()
-        const { data } = await login({ username, password, captchaCode,time })
+        const { data } = await login({ username, password, captchaCode, time })
         setToken(data.accessToken)
         this.SET_TOKEN(data.accessToken)
     }
-    
+
     /**
      * 注册
      * @param userInfo
      */
-    @Action({rawError: true})
+    @Action({ rawError: true })
     public async insert(userInfo: { name: string, email: string, password: string }) {
-        let { name, password, email} = userInfo
+        let { name, password, email } = userInfo
         name = name.trim()
         const { data } = await insert({ name, password, email })
         setToken(data.accessToken)
@@ -77,7 +78,7 @@ class User extends VuexModule implements IUserState {
     public ResetToken() {
         removeToken()
         this.SET_TOKEN('')
-        this.SET_ROLES([])
+        this.SET_ROLES('')
     }
 
     /**
@@ -92,16 +93,19 @@ class User extends VuexModule implements IUserState {
         if (!data) {
             throw Error('Verification failed, please Login again.')
         }
-        const { roles, name, avatar } = data
+        const { roles, name, avatar } = data.user;
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
             throw Error('GetUserInfo: roles must be a non-null array!')
         }
         // 角色
         this.SET_ROLES(roles)
+        // 用户名称
         this.SET_NAME(name)
         // 头像
         this.SET_AVATAR(avatar)
+        // mods
+        return data.mods
     }
 
     /**
@@ -115,7 +119,8 @@ class User extends VuexModule implements IUserState {
         await logout()
         removeToken()
         this.SET_TOKEN('')
-        this.SET_ROLES([])
+        this.SET_ROLES('')
+        resetRouter()
     }
 }
 

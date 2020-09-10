@@ -20,7 +20,7 @@ module.exports = {
     "no-catch-shadow": 2, //禁止catch子句参数与外部作用域变量同名
     "no-class-assign": 2, //禁止给类赋值
     "no-cond-assign": 2, //禁止在条件表达式中使用赋值语句
-    "no-console": 2, //禁止使用console
+    "no-console": 0, //禁止使用console
     "no-const-assign": 2, //禁止修改const声明的变量
     "no-constant-condition": 2, //禁止在条件中使用常量表达式 if(true) if(1)
     "no-continue": 0, //禁止使用continue
@@ -209,6 +209,14 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 0,
     'vue/multiline-html-element-content-newline': 0,
     'vue/max-attributes-per-line': 0,
+    "vue/mustache-interpolation-spacing":0,
+    "vue/html-indent":0,
+    "vue/attributes-order":0,
+    "vue/attribute-hyphenation":0,
+    "vue/attributes-order":0,
+    "vue/html-self-closing":0,
+    "import/no-duplicates":0,
+    "vue/v-bind-style":0,
   },
   'extends': [
     'eslint:recommended',

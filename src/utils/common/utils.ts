@@ -5,6 +5,9 @@
  * @Date 2020.8.29
  * @Doc 基础常用工具类
  */
+
+import { Mod } from '@/entity/auth/Mod';
+
 /**
  * 开始加载动画
  * @param listLoading 控制开关
@@ -23,59 +26,128 @@ export const endLoading = (listLoading: boolean) => {
 }
 // 使用filterKeys数组格式化和过滤json数据
 export const formatJson = (filterKeys: any, jsonData: any) =>
-  jsonData.map((data: any) => filterKeys.map((key: string) => {
-    if (key === 'timestamp') {
-      return parseTime(data[key])
-    } else {
-      return data[key]
-    }
-  }))
-  // 解析时间到字符串
+    jsonData.map((data: any) => filterKeys.map((key: string) => {
+        if (key === 'timestamp') {
+            return parseTime(data[key])
+        } else {
+            return data[key]
+        }
+    }))
+// 解析时间到字符串
 export const parseTime = (
 
     time?: object | string | number | null,
     cFormat?: string
-  ): string | null => {
+): string | null => {
     if (time === undefined || !time) {
-      return null
+        return null
     }
     const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
     let date: Date
     if (typeof time === 'object') {
-      date = time as Date
+        date = time as Date
     } else {
-      if (typeof time === 'string') {
-        if (/^[0-9]+$/.test(time)) {
-          // support "1548221490638"
-          time = parseInt(time)
-        } else {
-          // support safari
-          // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
-          time = time.replace(new RegExp(/-/gm), '/')
+        if (typeof time === 'string') {
+            if (/^[0-9]+$/.test(time)) {
+                // support "1548221490638"
+                time = parseInt(time)
+            } else {
+                // support safari
+                // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
+                time = time.replace(new RegExp(/-/gm), '/')
+            }
         }
-      }
-      if (typeof time === 'number' && time.toString().length === 10) {
-        time = time * 1000
-      }
-      date = new Date(time)
+        if (typeof time === 'number' && time.toString().length === 10) {
+            time = time * 1000
+        }
+        date = new Date(time)
     }
     const formatObj: { [key: string]: number } = {
-      y: date.getFullYear(),
-      m: date.getMonth() + 1,
-      d: date.getDate(),
-      h: date.getHours(),
-      i: date.getMinutes(),
-      s: date.getSeconds(),
-      a: date.getDay()
+        y: date.getFullYear(),
+        m: date.getMonth() + 1,
+        d: date.getDate(),
+        h: date.getHours(),
+        i: date.getMinutes(),
+        s: date.getSeconds(),
+        a: date.getDay()
     }
     const timeStr = format.replace(/{([ymdhisa])+}/g, (result, key) => {
-      const value = formatObj[key]
-      // Note: getDay() returns 0 on Sunday
-      if (key === 'a') {
-        return ['日', '一', '二', '三', '四', '五', '六'][value]
-      }
-      return value.toString().padStart(2, '0')
+        const value = formatObj[key]
+        // Note: getDay() returns 0 on Sunday
+        if (key === 'a') {
+            return ['日', '一', '二', '三', '四', '五', '六'][value]
+        }
+        return value.toString().padStart(2, '0')
     })
     return timeStr
 
-  }
+}
+
+/**
+ * 找到根节点id
+ * @param event
+ */
+export const findRootId = (mods: Array<Mod>) => {
+    for (let i = 0; i < mods.length; i++) {
+        if (
+            mods[i].pId === "undefined" ||
+            mods[i].pId === undefined ||
+            mods[i].pId === null ||
+            mods[i].pId === ""
+        ) {
+            return mods[i];
+        }
+    }
+    return new Mod();
+}
+/**
+ * 移除根节点,返回子节点列表
+ * @param event
+ */
+export const getNoPnodes = (mods: Array<Mod>) => {
+    const list = [];
+    for (let i = 0; i < mods.length; i++) {
+        if (
+            mods[i].pId === "undefined" ||
+            mods[i].pId === undefined ||
+            mods[i].pId === null ||
+            mods[i].pId === ""
+        ) {
+            mods.slice(i);
+        } else {
+            list.push(mods[i])
+        }
+    }
+    return list;
+}
+/**
+ * 根据父id递归获树形数据
+ */
+export const findNodes = (mods: Array<Mod>, pId?: string) => {
+    // 按创建时间排序
+    mods.sort(function (a, b) {
+        return Number(a.createdTime) - Number(b.createdTime);
+    });
+    let nodes: Array<Mod> = [];
+    mods.forEach((mod, index) => {
+        if (mod.pId == pId) {
+            if (isChildrenBypId(mods, mod.id)) {
+                mod.children = findNodes(mods, mod.id);
+            }
+            nodes.push(mod);
+            mods.slice(index);
+        }
+    });
+    return nodes;
+}
+/**
+ * 判断当前node是否存在子节点
+ */
+export const isChildrenBypId = (mods: Array<Mod>, pId?: string) => {
+    for (let i = 0; i < mods.length; i++) {
+        if (mods[i].id == pId) {
+            return true;
+        }
+    }
+    return false;
+}
