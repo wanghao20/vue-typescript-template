@@ -31,7 +31,9 @@
           <i style="width: 45px;font-size: 22px;color: #dfe4ed" 
           :class="item.meta.icon"></i>
         </span>
-        <span v-if="item.meta && item.meta.title" slot="title">{{ item.meta.title }}</span>
+        <!-- 因为icon标签和标题显示标签span重复,添加id span对文字进行隐藏图标
+        解决了缩小菜单后的图片显示异常 -->
+        <span id="span" v-if="item.meta && item.meta.title" slot="title">{{ item.meta.title }}</span>
       </template>
       <template v-if="item.children">
         <sidebar-item
@@ -149,7 +151,7 @@ export default class extends Vue {
           display: none;
         }
 
-        & > span {
+        & > #span {
           visibility: hidden;
         }
       }

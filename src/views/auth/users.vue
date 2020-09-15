@@ -59,7 +59,7 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">{{ scope.$index }}</template>
-      </el-table-column> 
+      </el-table-column>
       <el-table-column label="用户名">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
@@ -134,6 +134,7 @@
             v-model="tempUserData.email"
             name="email"
             type="text"
+            style="width: 200px;"
             autocomplete="on"
             placeholder="输入邮箱地址"
           />
@@ -144,7 +145,7 @@
             name="name"
             type="text"
             style="width: 200px;"
-            :disabled="true"
+            :disabled="dialogStatus!=='create'"
           />
         </el-form-item>
 
@@ -182,7 +183,7 @@ import { Paging } from "@/utils/Type";
 
 const calendarTypeOptions: any = [];
 @Component({
-  name: "Table",
+  name: "Users",
   components: {
     Pagination,
   },
@@ -234,10 +235,11 @@ export default class extends Vue {
   }
 
   /**
-   * 获取用户数据
+   * 获取玩家数据
    */
   private async getList() {
     startLoading(this.listLoading);
+    // todo 暂时使用auth数据显示
     const { data } = await getUsers(this.listQuery);
     if (this.rolesData === null) {
       this.rolesData = await getRoles();

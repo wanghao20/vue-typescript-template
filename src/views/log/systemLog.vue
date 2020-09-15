@@ -89,7 +89,7 @@ import { Paging, TbLog } from "@/utils/Type";
 const calendarTypeOptions: any = [];
 
 @Component({
-  name: "Table",
+  name: "SystemLog",
   components: {
     Pagination,
   },

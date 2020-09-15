@@ -1,6 +1,6 @@
-import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators'
+import { VuexModule, Module, Mutation, getModule } from 'vuex-module-decorators'
 import { RouteConfig } from 'vue-router'
-import {  constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
 import store from '@/store'
 
 const hasPermission = (roles: string[], route: RouteConfig) => {

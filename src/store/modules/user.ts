@@ -7,17 +7,19 @@ import { resetRouter } from '@/router'
 export interface IUserState {
     token: string
     name: string
+    email: string
     avatar: string
-    introduction: string
-    roles : string
+    id: string
+    roles: string
 }
 
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
     public token = getToken() || ''
     public name = ''
+    public email = ''
     public avatar = ''
-    public introduction = ''
+    public id = ''
     public roles: string = ''
 
     @Mutation
@@ -36,13 +38,17 @@ class User extends VuexModule implements IUserState {
     }
 
     @Mutation
-    private SET_INTRODUCTION(introduction: string) {
-        this.introduction = introduction
+    private SET_ID(id: string) {
+        this.id = id
     }
 
     @Mutation
     private SET_ROLES(roles: string) {
         this.roles = roles
+    }
+    @Mutation
+    private SET_EMAIL(email: string) {
+        this.email = email
     }
 
     /**
@@ -93,13 +99,12 @@ class User extends VuexModule implements IUserState {
         if (!data) {
             throw Error('Verification failed, please Login again.')
         }
-        const { roles, name, avatar } = data.user;
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-            throw Error('GetUserInfo: roles must be a non-null array!')
-        }
+        const { id, name, avatar, email, rolesName } = data.user;
+
         // 角色
-        this.SET_ROLES(roles)
+        this.SET_ROLES(rolesName)
+        this.SET_EMAIL(email)
+        this.SET_ID(id)
         // 用户名称
         this.SET_NAME(name)
         // 头像

@@ -116,7 +116,7 @@ module.exports = {
     "no-useless-call": 2, //禁止不必要的call和apply
     "no-void": 2, //禁用void操作符
     "no-var": 0, //禁用var，用let和const代替
-    "no-warning-comments": [1, {
+    "no-warning-comments": [0, {
       "terms": ["todo", "fixme", "xxx"],
       "location": "start"
     }], //不能有警告备注

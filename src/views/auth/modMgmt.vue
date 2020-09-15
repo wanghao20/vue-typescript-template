@@ -133,7 +133,7 @@ import { createMod, getMod, deleteMod, updataMod } from "@/api/auth/mod";
 import { findRootId, findNodes } from "@/utils/common/utils";
 
 @Component({
-  name: "Tree",
+  name: "ModMgmt",
 })
 export default class extends Vue {
   private filterText = "";
@@ -255,7 +255,7 @@ export default class extends Vue {
         const data: any = await updataMod(this.tempNodeData);
         this.$notify({
           title: "修改",
-          message: "修改成功",
+          message: "修改成功!页面刷新后菜单栏变化. 注意在权限菜单设置后才可显示!",
           type: "success",
           duration: 2000,
         });
@@ -271,7 +271,7 @@ export default class extends Vue {
    * 删除节点
    */
   private async remove(node: any, mod: Mod) {
-    const obj: any = await deleteMod(mod);
+    const obj: any = await deleteMod({id:mod.id});
     const parent = node.parent;
     const children = parent.data.children || parent.data;
     const index = children.findIndex((d: any) => d.id === mod.id);

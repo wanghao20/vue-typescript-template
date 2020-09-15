@@ -16,9 +16,9 @@ export const updataMod = (data: any) =>
         method: 'put',
         data
     });
-export const deleteMod = (data: any) =>
+export const deleteMod = (params: any) =>
     request({
         url: '/auth/Mod',
         method: 'delete',
-        data
+        params
     });

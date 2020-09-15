@@ -140,7 +140,7 @@ function routerGo(to: any, next: (arg0: any) => void) {
     routes.push({
         "path": '*',
         "redirect": '/404',
-        "meta": { "hidden": true }
+        "meta": { "hidden": true, title: "找不到页面!", }
     })
     router.addRoutes(routes, true)
     const menu = getRouteListfilterMenu(mods)

@@ -24,19 +24,19 @@ Vue.use(SvgIcon, {
 });
 // Register global directives
 Object.keys(directives).forEach(key => {
-    Vue.directive(key, (directives as { [key: string ]: DirectiveOptions })[key])
-  })
+    Vue.directive(key, (directives as { [key: string]: DirectiveOptions })[key])
+})
 /**
  * 自定义错误捕获
  */
 Vue.config.productionTip = false;
-const errorHandler=(err:any,vm:any)=>{
+const errorHandler = (err: any, vm: any) => {
     console.error("捕获到错误")
     console.error(vm)
     console.error(err)
 }
-Vue.config.errorHandler =errorHandler;
-Vue.config.warnHandler = function(msg, vm, trace) {
+Vue.config.errorHandler = errorHandler;
+Vue.config.warnHandler = function (msg, vm, trace) {
     console.error("捕获到警告")
     console.error(vm)
     console.error(msg)
@@ -48,4 +48,4 @@ new Vue({
     store,
     i18n,
     render: (h) => h(App)
-}).$mount('#app')
+}).$mount('#app');

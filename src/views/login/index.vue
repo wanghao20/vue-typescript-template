@@ -218,7 +218,7 @@ import { startLoading, endLoading } from "@/utils/common/utils";
 import { captchaCode, validEmailCode, getEmailCode } from "@/api/auth/user";
 import BaseUrl from "@/config/baseUrl";
 import { setToken } from "@/utils/cookies";
-import { resetRouter } from '@/router';
+import { resetRouter } from "@/router";
 
 @Component({
   name: "Login",
@@ -228,7 +228,7 @@ export default class extends Vue {
    * 验证用户名
    */
   private validateUsername = (rule: any, value: string, callback: Function) => {
-       if (value.length < 5) {
+    if (value.length < 5) {
       callback(new Error("请检查用户名是否合法(最低6位)"));
     } else {
       callback();
@@ -248,7 +248,7 @@ export default class extends Vue {
    * 设置默认值
    */
   private loginForm = {
-    username: "admin",
+    username: "Administrator",
     password: "111111",
     captchaCode: "",
     time: "",
@@ -272,7 +272,7 @@ export default class extends Vue {
     captchaCode: [{ required: true, message: "必填项", trigger: "blur" }],
   };
   private emailRules = {
-     name: [{ validator: this.validateUsername, trigger: "blur" }],
+    name: [{ validator: this.validateUsername, trigger: "blur" }],
     password: [{ required: true, message: "必填项", trigger: "blur" }],
     email: [{ required: true, message: "必填项", trigger: "blur" }],
   };
@@ -329,8 +329,6 @@ export default class extends Vue {
   private async retrievePwd() {
     const obj = this.retrieveForm;
     const { data } = await validEmailCode(obj);
-    console.log(data)
-    // if(data)
   }
   /**
    * 获取邮箱验证码
@@ -422,10 +420,14 @@ export default class extends Vue {
         startLoading(this.loading);
         await UserModule.Login(this.loginForm);
         //   path: this.redirect || "/dashboard/dashboard",
-        this.$router.push({
-          path: "/dashboard/dashboard",
-          query: this.otherQuery,
-        });
+        this.$router
+          .push({
+            path: "/dashboard/dashboard",
+            query: this.otherQuery,
+          })
+          .catch((err) => {
+            // 捕获路由错误 这里跳转时动态路由为初始化完成,
+          });
         endLoading(this.loading);
       } else {
         return false;

@@ -153,7 +153,7 @@ import { Mod } from "@/entity/auth/Mod";
 import { Paging, ResData } from "@/utils/Type";
 
 @Component({
-  name: "Table",
+  name: "Roles",
   components: {
     Pagination,
   },

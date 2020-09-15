@@ -1,14 +1,11 @@
 /* tslint:disable */
-import './dashboard'
-import './component'
-import './example'
-import './eye-off'
-import './eye-on'
-import './form'
+//  汉堡图标 
 import './hamburger'
-import './link'
-import './nested'
+// 用户
+// 多用户
+import './peoples'
+// 密码
 import './password'
-import './table'
-import './tree'
 import './user'
+import './money'
+import './chart'

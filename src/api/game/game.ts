@@ -26,5 +26,3 @@ export const updateBaseGame = (params: any) =>
         method: 'put',
         params
     });
-    export const updateFileUrl = BaseUrl + "common/upload"
-    export const downloadFileUrl = BaseUrl + "common/download/"

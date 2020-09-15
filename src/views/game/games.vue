@@ -255,17 +255,16 @@ import {
   delectBaseGame,
   updateBaseGame,
   createBaseGame,
-  updateFileUrl,
-  downloadFileUrl,
 } from "@/api/game/game";
 import { getRoles } from "@/api/auth/role";
 import { BaseGame } from "@/entity/game/Game";
 import { getToken } from "@/utils/cookies";
 import { Paging } from "@/utils/Type";
+import { downloadFileUrl, updateFileUrl } from '@/api/common/common';
 
 const calendarTypeOptions: any = [];
 @Component({
-  name: "Table",
+  name: "Game",
   components: {
     Pagination,
   },
@@ -338,6 +337,7 @@ export default class extends Vue {
     }
     return isJPG && isLt2M;
   }
+
   /**
    * 获取游戏数据
    */
