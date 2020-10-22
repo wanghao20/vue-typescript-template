@@ -14,7 +14,7 @@
       </el-upload>
     </el-form-item>
     <el-form-item label="登录名称" prop="name">
-      <el-input v-model="userForm.name" />
+      <el-input disabled v-model="userForm.name" />
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input
@@ -109,7 +109,7 @@ export default class extends Vue {
    * 文件上传成功
    */
   handleAvatarSuccess(res: any, file: { raw: any }) {
-    this.userForm.avatar = URL.createObjectURL(file.raw);
+    this.userForm.avatar = res.data;
   }
   /**
    * 文件上传以前

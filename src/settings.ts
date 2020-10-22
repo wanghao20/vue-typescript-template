@@ -1,22 +1,22 @@
 interface ISettings {
-  title: string // Overrides the default title
-  showSettings: boolean // Controls settings panel display
-  showTagsView: boolean // Controls tagsview display
-  showSidebarLogo: boolean // Controls siderbar logo display
-  fixedHeader: boolean // If true, will fix the header component
-  errorLog: string[] // The env to enable the errorlog component, default 'production' only
-  sidebarTextTheme: boolean // If true, will change active text color for sidebar based on theme
-  devServerPort: number // Port number for webpack-dev-server
-  mockServerPort: number // Port number for mock server
+  title: string // 重写默认标题
+  showSettings: boolean //控件设置面板显示
+  showTagsView: boolean // 控制tagsview显示
+  showSidebarLogo: boolean // 控制siderbar徽标的显示
+  fixedHeader: boolean // 如果为true，将固定组件
+  errorLog: string[] // /启用errorLog组件的环境，默认值仅为“production”
+  sidebarTextTheme: boolean // 如果为true，将根据主题更改提要栏的活动文本颜色
+  devServerPort: number // webpack dev server的端口号
+  mockServerPort: number // 模拟服务器的端口号
 }
 
 // You can customize below settings :)
 const settings: ISettings = {
-  title: 'Vue Typescript Admin',
+  title: 'DF Ums',
   showSettings: true,
   showTagsView: true,
-  fixedHeader: false,
-  showSidebarLogo: false,
+  fixedHeader: true,
+  showSidebarLogo: true,
   errorLog: ['production'],
   sidebarTextTheme: true,
   devServerPort: 9527,

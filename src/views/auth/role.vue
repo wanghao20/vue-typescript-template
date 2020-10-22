@@ -7,7 +7,7 @@
           <el-input
             v-model="listQuery.condition.name"
             :placeholder="'角色名'"
-            style="width: 200px;"
+            style="width: 200px"
             class="filter-item"
             @keyup.enter.native="handleFilter"
           />
@@ -17,14 +17,16 @@
             type="primary"
             icon="el-icon-search"
             @click="handleFilter"
-          >{{ "搜索" }}</el-button>
+            >{{ "搜索" }}</el-button
+          >
           <el-button
             class="filter-item"
-            style="margin-left: 10px;"
+            style="margin-left: 10px"
             type="primary"
             icon="el-icon-edit"
             @click="handleCreate"
-          >{{ "新增" }}</el-button>
+            >{{ "新增" }}</el-button
+          >
         </div>
         <!-- 表格 -->
         <el-table
@@ -44,9 +46,19 @@
             <template slot-scope="scope">{{ scope.row.roleName }}</template>
           </el-table-column>
           <!-- 操作按钮 -->
-          <el-table-column :label="'操作'" align="center" width="230" class-name="fixed-width">
-            <template slot-scope="{row, $index}">
-              <el-button type="primary" size="mini" @click="handleUpdate(row)">{{ "编辑模块权限" }}</el-button>
+          <el-table-column
+            :label="'操作'"
+            align="center"
+            width="230"
+            class-name="fixed-width"
+          >
+            <template slot-scope="{ row, $index }">
+              <el-button
+                type="primary"
+                size="mini"
+                @click="handleUpdate(row)"
+                >{{ "编辑模块权限" }}</el-button
+              >
               <el-popconfirm
                 confirmButtonText="确认"
                 cancelButtonText="取消"
@@ -54,31 +66,34 @@
                 iconColor="red"
                 title="确认删除吗?"
                 @onConfirm="handleDelete(row, $index)"
+                @keyup.enter.native="handleDelete(row, $index)"
               >
                 <el-button
-                  v-if="row.status!=='deleted'"
+                  v-if="row.status !== 'deleted'"
                   size="mini"
                   type="danger"
                   slot="reference"
-                >{{ "删除" }}</el-button>
+                  >{{ "删除" }}</el-button
+                >
               </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
         <!-- 分页 -->
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="listQuery.page"
           :limit.sync="listQuery.limit"
           @pagination="getList"
         />
       </el-col>
-      <el-col :span="12" style=" height: 705px;
-    overflow-x: hidden;
-    overflow-y: auto;">
+      <el-col
+        :span="12"
+        style="height: 705px; overflow-x: hidden; overflow-y: auto"
+      >
         <p>角色权限对应关系</p>
-        <div style="overflow:auto">
+        <div style="overflow: auto">
           <el-tree
             :data="data"
             show-checkbox
@@ -90,7 +105,12 @@
           ></el-tree>
         </div>
 
-        <el-button type="primary" style="display: inline;float: right;" @click="saveMods">{{"保存" }}</el-button>
+        <el-button
+          type="primary"
+          style="display: inline; float: right"
+          @click="saveMods"
+          >{{ "保存" }}</el-button
+        >
       </el-col>
     </el-row>
 
@@ -103,14 +123,14 @@
         label-position="left"
         label-width="100px"
         autocomplete="on"
-        style="width: 400px; margin-left:50px;"
+        style="width: 400px; margin-left: 50px"
       >
         <el-form-item :label="'角色名'" prop="roleName">
           <el-input
             v-model="tempRoleData.roleName"
             name="roleName"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入角色名"
           />
         </el-form-item>
@@ -119,8 +139,9 @@
         <el-button @click="dialogFormVisible = false">{{ "取消" }}</el-button>
         <el-button
           type="primary"
-          @click="dialogStatus==='create'?createData():updateData()"
-        >{{"保存" }}</el-button>
+          @click="dialogStatus === 'create' ? createData() : updateData()"
+          >{{ "保存" }}</el-button
+        >
       </div>
     </el-dialog>
   </div>

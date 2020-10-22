@@ -1,11 +1,14 @@
 import request from '@/utils/request'
-import BaseUrl from '@/config/baseUrl';
-
 export const getGames = (params: any) =>
     request({
         url: '/game/game',
         method: 'get',
         params
+    });
+export const getGameList = () =>
+    request({
+        url: '/game/games',
+        method: 'get',
     });
 
 export const createBaseGame = (params: any) =>
