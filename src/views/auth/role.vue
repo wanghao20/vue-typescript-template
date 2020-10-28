@@ -172,6 +172,7 @@ import { Role } from "@/entity/auth/Role";
 import { getMod } from "@/api/auth/mod";
 import { Mod } from "@/entity/auth/Mod";
 import { Paging, ResData } from "@/utils/Type";
+import { StaticStr } from "@/config/StaticStr";
 
 @Component({
   name: "Roles",
@@ -250,7 +251,7 @@ export default class extends Vue {
         title: "提示",
         message: "请先选择角色",
         type: "warning",
-        duration: 2000,
+        duration: StaticStr.CODE_TIME,
       });
       return;
     }
@@ -261,10 +262,10 @@ export default class extends Vue {
       this.tempRoleData.mods = mods;
       await updateRole(this.tempRoleData);
       this.$notify({
-        title: "成功",
-        message: "保存成功",
+        title: StaticStr.SUCCESS_CODE_CREATE,
+        message: StaticStr.SUCCESS_CODE_SAVE_STR,
         type: "success",
-        duration: 2000,
+        duration: StaticStr.CODE_TIME,
       });
     }
   }
@@ -281,10 +282,10 @@ export default class extends Vue {
       // 遍历模块树形设置值
       (<any>this.$refs.tree).setCheckedNodes(mods);
       this.$notify({
-        title: "成功",
+        title: StaticStr.SUCCESS_CODE_CREATE,
         message: "获取数据成功!",
         type: "success",
-        duration: 2000,
+        duration: StaticStr.CODE_TIME,
       });
     }
   }
@@ -336,10 +337,10 @@ export default class extends Vue {
         this.list.unshift(data);
         this.dialogFormVisible = false;
         this.$notify({
-          title: "成功",
-          message: "创建成功",
+          title: StaticStr.SUCCESS_CODE_CREATE,
+          message: StaticStr.SUCCESS_CODE_CREATE_STR,
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
       }
     });
@@ -351,10 +352,10 @@ export default class extends Vue {
   private async handleDelete(row: any, index: number) {
     const { data } = await delectRole(row);
     this.$notify({
-      title: "成功",
-      message: "删除成功",
+      title: StaticStr.SUCCESS_CODE_CREATE,
+      message: StaticStr.SUCCESS_CODE_DEL_STR,
       type: "success",
-      duration: 200,
+      duration: StaticStr.CODE_TIME,
     });
     this.list.splice(index, 1);
   }

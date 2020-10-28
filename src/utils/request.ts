@@ -3,6 +3,7 @@ import { Message, MessageBox } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import BaseUrl from '@/config/baseUrl'
 import { Notification } from 'element-ui';
+import { StaticStr } from '@/config/StaticStr';
 const service = axios.create({
     baseURL: BaseUrl, // 服务器地址
     timeout: 5000 // 超时time
@@ -35,7 +36,7 @@ service.interceptors.response.use(
         // 您可以更改此部件以供您自己使用。
         const res = response.data
         if (res.code !== 200) {
-            if (res.code === 401) {
+            if (res.code === StaticStr.ERR_CODE_LOGIN) {
                 MessageBox.confirm(
                     '您已退出，请尝试重新登录.',
                     'Log out',
@@ -48,12 +49,12 @@ service.interceptors.response.use(
                     UserModule.ResetToken()
                     location.reload() // 防止vue路由器出现错误
                 })
-            } else if (res.code === 403) {
+            } else if (res.code === StaticStr.ERR_CODE_DEFAULT) {
                 Notification({
                     title: "提示",
                     message: res.msg,
                     type: "warning",
-                    duration: 2000,
+                    duration: StaticStr.CODE_TIME,
                 });
                 return response.data
             } else {
@@ -61,7 +62,7 @@ service.interceptors.response.use(
                 return Promise.reject(new Error(res.msg || 'Error'))
             }
         } else {
-            return response.data
+                return response.data
         }
     },
     (error) => {
@@ -69,7 +70,7 @@ service.interceptors.response.use(
         Message({
             message: error.message,
             type: 'error',
-            duration: 5 * 1000
+            duration: StaticStr.CODE_TIME,
         })
         return Promise.reject(error)
     }

@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/cookies'
 import store from '@/store'
 import { login, getUserInfo, logout, insert } from '@/api/auth/user'
 import { resetRouter } from '@/router'
+import { StaticStr } from '@/config/StaticStr'
 
 export interface IUserState {
     token: string
@@ -55,11 +56,14 @@ class User extends VuexModule implements IUserState {
      * 登录
      * @param userInfo
      */
-    @Action
+    @Action({ rawError: true })
     public async Login(userInfo: { username: string, time: string, password: string, captchaCode: string }) {
         let { username, password, captchaCode, time } = userInfo
         username = username.trim()
         const { data } = await login({ username, password, captchaCode, time })
+        if(data===undefined){
+            return true;
+        }
         setToken(data.accessToken)
         this.SET_TOKEN(data.accessToken)
     }
@@ -99,7 +103,7 @@ class User extends VuexModule implements IUserState {
         if (!data) {
             throw Error('Verification failed, please Login again.')
         }
-        const { id, name, avatar, email, rolesName } = data.user;
+        let { id, name, avatar, email, rolesName } = data.user;
 
         // 角色
         this.SET_ROLES(rolesName)
@@ -107,6 +111,11 @@ class User extends VuexModule implements IUserState {
         this.SET_ID(id)
         // 用户名称
         this.SET_NAME(name)
+        if(avatar===null){
+            // 设置默认头像
+            avatar=StaticStr.AVATAR
+        }
+        
         // 头像
         this.SET_AVATAR(avatar)
         // mods

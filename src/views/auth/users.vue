@@ -5,7 +5,7 @@
       <el-input
         v-model="listQuery.condition.name"
         :placeholder="'用户名'"
-        style="width: 200px;"
+        style="width: 200px"
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
@@ -29,14 +29,16 @@
         type="primary"
         icon="el-icon-search"
         @click="handleFilter"
-      >{{ "搜索" }}</el-button>
+        >{{ "搜索" }}</el-button
+      >
       <el-button
         class="filter-item"
-        style="margin-left: 10px;"
+        style="margin-left: 10px"
         type="primary"
         icon="el-icon-edit"
         @click="handleCreate"
-      >{{ "新增" }}</el-button>
+        >{{ "新增" }}</el-button
+      >
       <el-button
         v-waves
         :loading="downloadLoading"
@@ -44,7 +46,8 @@
         type="primary"
         icon="el-icon-download"
         @click="handleDownload"
-      >{{ "导出" }}</el-button>
+        >{{ "导出" }}</el-button
+      >
     </div>
     <!-- 表格 -->
     <el-table
@@ -68,16 +71,28 @@
           <span>{{ scope.row.rolesName }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="创建时间" width="250">
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="创建时间"
+        width="250"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.createdTime}}</span>
+          <span>{{ scope.row.createdTime }}</span>
         </template>
       </el-table-column>
       <!-- 操作按钮 -->
-      <el-table-column :label="'操作'" align="center" width="230" class-name="fixed-width">
-        <template slot-scope="{row, $index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">{{ "编辑" }}</el-button>
+      <el-table-column
+        :label="'操作'"
+        align="center"
+        width="230"
+        class-name="fixed-width"
+      >
+        <template slot-scope="{ row, $index }">
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">{{
+            "编辑"
+          }}</el-button>
 
           <el-popconfirm
             confirmButtonText="确认"
@@ -89,18 +104,19 @@
             @keyup.enter.native="handleDelete(row, $index)"
           >
             <el-button
-              v-if="row.status!=='deleted'"
+              v-if="row.status !== 'deleted'"
               size="mini"
               type="danger"
               slot="reference"
-            >{{ "删除" }}</el-button>
+              >{{ "删除" }}</el-button
+            >
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
     <pagination
-      v-show="total>0"
+      v-show="total > 0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
@@ -116,10 +132,14 @@
         label-position="left"
         label-width="100px"
         autocomplete="on"
-        style="width: 400px; margin-left:50px;"
+        style="width: 400px; margin-left: 50px"
       >
         <el-form-item :label="'角色'" prop="roles">
-          <el-select v-model="tempUserData.roles" class="filter-item" placeholder="请选择">
+          <el-select
+            v-model="tempUserData.roles"
+            class="filter-item"
+            placeholder="请选择"
+          >
             <el-option
               v-for="item2 in calendarTypeOptions"
               :key="item2.id"
@@ -134,7 +154,7 @@
             v-model="tempUserData.email"
             name="email"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             autocomplete="on"
             placeholder="输入邮箱地址"
           />
@@ -144,8 +164,8 @@
             v-model="tempUserData.name"
             name="name"
             type="text"
-            style="width: 200px;"
-            :disabled="dialogStatus!=='create'"
+            style="width: 200px"
+            :disabled="dialogStatus !== 'create'"
           />
         </el-form-item>
 
@@ -153,7 +173,7 @@
           <el-input
             v-model="tempUserData.password"
             type="password"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入登录密码"
             name="password"
           />
@@ -163,8 +183,9 @@
         <el-button @click="dialogFormVisible = false">{{ "取消" }}</el-button>
         <el-button
           type="primary"
-          @click="dialogStatus==='create'?createData():updateData()"
-        >{{"保存" }}</el-button>
+          @click="dialogStatus === 'create' ? createData() : updateData()"
+          >{{ "保存" }}</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -180,6 +201,7 @@ import Pagination from "@/components/Pagination/index.vue";
 import { getUsers, createUser, updateUser, delectUser } from "@/api/auth/user";
 import { getRoles } from "@/api/auth/role";
 import { Paging } from "@/utils/Type";
+import { StaticStr } from "@/config/StaticStr";
 
 const calendarTypeOptions: any = [];
 @Component({
@@ -302,10 +324,10 @@ export default class extends Vue {
         this.list.unshift(data);
         this.dialogFormVisible = false;
         this.$notify({
-          title: "成功",
-          message: "创建成功",
+          title: StaticStr.SUCCESS_CODE_CREATE,
+          message: StaticStr.SUCCESS_CODE_CREATE_STR,
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
       }
     });
@@ -322,10 +344,10 @@ export default class extends Vue {
         this.list.splice(index, 1, data);
         this.dialogFormVisible = false;
         this.$notify({
-          title: "成功",
-          message: "更新成功",
+          title: StaticStr.SUCCESS_CODE_CREATE,
+          message: StaticStr.SUCCESS_CODE_UPDATA_STR,
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
       }
     });
@@ -349,10 +371,10 @@ export default class extends Vue {
   private async handleDelete(row: any, index: number) {
     const { data } = await delectUser(row);
     this.$notify({
-      title: "成功",
-      message: "删除成功",
+      title: StaticStr.SUCCESS_CODE_CREATE,
+      message: StaticStr.SUCCESS_CODE_DEL_STR,
       type: "success",
-      duration: 200,
+      duration: StaticStr.CODE_TIME,
     });
     this.list.splice(index, 1);
   }

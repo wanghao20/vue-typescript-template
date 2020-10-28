@@ -5,7 +5,7 @@
       <el-input
         v-model="listQuery.name"
         :placeholder="'游戏名'"
-        style="width: 200px;"
+        style="width: 200px"
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
@@ -29,14 +29,16 @@
         type="primary"
         icon="el-icon-search"
         @click="handleFilter"
-      >{{ "搜索" }}</el-button>
+        >{{ "搜索" }}</el-button
+      >
       <el-button
         class="filter-item"
-        style="margin-left: 10px;"
+        style="margin-left: 10px"
         type="primary"
         icon="el-icon-edit"
         @click="handleCreate"
-      >{{ "新增" }}</el-button>
+        >{{ "新增" }}</el-button
+      >
       <el-button
         v-waves
         :loading="downloadLoading"
@@ -44,7 +46,8 @@
         type="primary"
         icon="el-icon-download"
         @click="handleDownload"
-      >{{ "导出" }}</el-button>
+        >{{ "导出" }}</el-button
+      >
     </div>
     <!-- 表格 -->
     <el-table
@@ -63,7 +66,7 @@
           shape="square"
           size="medium"
           :headers="headers"
-          :src="downloadFileUrl+scope.row.icon"
+          :src="downloadFileUrl + scope.row.icon"
         ></el-avatar>
       </el-table-column>
       <el-table-column label="游戏名" width="100" align="center">
@@ -77,11 +80,11 @@
       </el-table-column>
       <el-table-column label="当前状态" width="100" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.status =='0'">立项</span>
-          <span v-if="scope.row.status =='1'">开发</span>
-          <span v-if="scope.row.status =='2'">测试</span>
-          <span v-if="scope.row.status =='3'">上线</span>
-          <span v-if="scope.row.status =='4'">下线</span>
+          <span v-if="scope.row.status == '0'">立项</span>
+          <span v-if="scope.row.status == '1'">开发</span>
+          <span v-if="scope.row.status == '2'">测试</span>
+          <span v-if="scope.row.status == '3'">上线</span>
+          <span v-if="scope.row.status == '4'">下线</span>
         </template>
       </el-table-column>
       <el-table-column label="公司团队" width="100" align="center">
@@ -96,10 +99,15 @@
       <el-table-column label="描述信息" width="400" align="center">
         <template slot-scope="scope">{{ scope.row.doc }}</template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="创建时间" width="180">
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="创建时间"
+        width="180"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.createdTime}}</span>
+          <span>{{ scope.row.createdTime }}</span>
         </template>
       </el-table-column>
       <!-- 操作按钮 -->
@@ -110,8 +118,10 @@
         width="230"
         class-name="fixed-width"
       >
-        <template slot-scope="{row, $index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">{{ "编辑" }}</el-button>
+        <template slot-scope="{ row, $index }">
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">{{
+            "编辑"
+          }}</el-button>
 
           <el-popconfirm
             confirmButtonText="确认"
@@ -123,18 +133,19 @@
             @keyup.enter.native="handleDelete(row, $index)"
           >
             <el-button
-              v-if="row.status!=='deleted'"
+              v-if="row.status !== 'deleted'"
               size="mini"
               type="danger"
               slot="reference"
-            >{{ "删除" }}</el-button>
+              >{{ "删除" }}</el-button
+            >
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
     <pagination
-      v-show="total>0"
+      v-show="total > 0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
@@ -150,7 +161,7 @@
         label-position="left"
         label-width="100px"
         autocomplete="on"
-        style="width: 400px; margin-left:50px;"
+        style="width: 400px; margin-left: 50px"
       >
         <el-form-item :label="'游戏图标'" prop="status">
           <el-upload
@@ -170,7 +181,7 @@
             v-model="tempBaseGameData.gameName"
             name="gameName"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入游戏名"
           />
         </el-form-item>
@@ -179,7 +190,7 @@
             v-model="tempBaseGameData.gameId"
             name="gameId"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入gameId"
           />
         </el-form-item>
@@ -188,7 +199,7 @@
             v-model="tempBaseGameData.gamePath"
             name="gamePath"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入cdn目录名"
           />
         </el-form-item>
@@ -197,7 +208,7 @@
             v-model="tempBaseGameData.version"
             name="version"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入版本号"
           />
         </el-form-item>
@@ -206,7 +217,7 @@
             v-model="tempBaseGameData.team"
             name="team"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入团队名称"
           />
         </el-form-item>
@@ -215,12 +226,16 @@
             v-model="tempBaseGameData.staffGear"
             name="staffGear"
             type="text"
-            style="width: 200px;"
+            style="width: 200px"
             placeholder="请输入人员安排"
           />
         </el-form-item>
         <el-form-item :label="'当前状态'" prop="status">
-          <el-select v-model="tempBaseGameData.status" class="filter-item" placeholder="请选择">
+          <el-select
+            v-model="tempBaseGameData.status"
+            class="filter-item"
+            placeholder="请选择"
+          >
             <el-option
               v-for="item2 in calendarTypeOptions"
               :key="item2.id"
@@ -230,15 +245,21 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="'描述信息'" prop="doc">
-          <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="tempBaseGameData.doc"></el-input>
+          <el-input
+            type="textarea"
+            :rows="2"
+            placeholder="请输入内容"
+            v-model="tempBaseGameData.doc"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{ "取消" }}</el-button>
         <el-button
           type="primary"
-          @click="dialogStatus==='create'?createData():updateData()"
-        >{{"保存" }}</el-button>
+          @click="dialogStatus === 'create' ? createData() : updateData()"
+          >{{ "保存" }}</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -260,7 +281,8 @@ import { getRoles } from "@/api/auth/role";
 import { BaseGame } from "@/entity/game/Game";
 import { getToken } from "@/utils/cookies";
 import { Paging } from "@/utils/Type";
-import { downloadFileUrl, updateFileUrl } from '@/api/common/common';
+import { downloadFileUrl, updateFileUrl } from "@/api/common/common";
+import { StaticStr } from "@/config/StaticStr";
 
 const calendarTypeOptions: any = [];
 @Component({
@@ -408,10 +430,10 @@ export default class extends Vue {
         this.list.unshift(data);
         this.dialogFormVisible = false;
         this.$notify({
-          title: "成功",
-          message: "创建成功",
+          title: StaticStr.SUCCESS_CODE_CREATE,
+          message: StaticStr.SUCCESS_CODE_CREATE_STR,
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
       }
     });
@@ -428,10 +450,10 @@ export default class extends Vue {
         this.list.splice(index, 1, data);
         this.dialogFormVisible = false;
         this.$notify({
-          title: "成功",
-          message: "更新成功",
+          title: StaticStr.SUCCESS_CODE_CREATE,
+          message: StaticStr.SUCCESS_CODE_UPDATA_STR,
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
       }
     });
@@ -456,10 +478,10 @@ export default class extends Vue {
   private async handleDelete(row: any, index: number) {
     const { data } = await delectBaseGame(row);
     this.$notify({
-      title: "成功",
-      message: "删除成功",
+      title: StaticStr.SUCCESS_CODE_CREATE,
+      message: StaticStr.SUCCESS_CODE_DEL_STR,
       type: "success",
-      duration: 200,
+      duration: StaticStr.CODE_TIME,
     });
     this.list.splice(index, 1);
   }

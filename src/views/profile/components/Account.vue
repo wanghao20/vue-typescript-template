@@ -44,6 +44,7 @@ import { IProfile } from "../index.vue";
 import { User } from "@/entity/auth/User";
 import { ElForm } from "element-ui/types/form";
 import { updateUser } from "@/api/auth/user";
+import { StaticStr } from '@/config/StaticStr';
 
 @Component({
   name: "Account",
@@ -96,9 +97,10 @@ export default class extends Vue {
       if (valid) {
         const { data } = await updateUser(this.userForm);
         this.$message({
-          message: "保存成功!",
+
+          message: StaticStr.SUCCESS_CODE_SAVE_STR,
           type: "success",
-          duration: 5 * 1000,
+          duration: StaticStr.CODE_TIME,
         });
       } else {
         return false;

@@ -131,6 +131,7 @@ import { TreeData } from "element-ui/types/tree";
 import { Mod } from "@/entity/auth/Mod";
 import { createMod, getMod, deleteMod, updataMod } from "@/api/auth/mod";
 import { findRootId, findNodes } from "@/utils/common/utils";
+import { StaticStr } from '@/config/StaticStr';
 
 @Component({
   name: "ModMgmt",
@@ -238,10 +239,10 @@ export default class extends Vue {
         this.pNode.children.push(mod);
         this.dialogFormVisible = false;
         this.$notify({
-          title: "成功",
-          message: "创建成功",
+          title: StaticStr.SUCCESS_CODE_CREATE,
+          message: StaticStr.SUCCESS_CODE_CREATE_STR,
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
       }
     });
@@ -257,7 +258,7 @@ export default class extends Vue {
           title: "修改",
           message: "修改成功!页面刷新后菜单栏变化. 注意在权限菜单设置后才可显示!",
           type: "success",
-          duration: 2000,
+          duration: StaticStr.CODE_TIME,
         });
         this.dialogFormVisible = false;
 

@@ -41,7 +41,9 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
+          <svg-icon
+            :name="passwordType === 'password' ? 'eye-off' : 'eye-on'"
+          />
         </span>
       </el-form-item>
       <el-form-item label prop="captchaCode">
@@ -54,12 +56,12 @@
           spellcheck="false"
           maxlength="8"
           @keyup.enter.native="handleLogin"
-          style="float: left; width: 122px;"
+          style="float: left; width: 122px"
         ></el-input>
         <div class="captcha_code">
           <img
             v-bind:src="captchaCode"
-            style="display: inline;float: right;"
+            style="display: inline; float: right"
             @click="initCaptchaCode"
           />
         </div>
@@ -67,30 +69,33 @@
       <el-button
         :loading="loading"
         type="primary"
-        style="width:100%; margin-bottom:30px;"
+        style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >登录</el-button>
+        >登录</el-button
+      >
 
-      <div style="position:relative">
+      <div style="position: relative">
         <el-button
           class="thirdparty-button"
           type="info"
-          style="display: inline;float: left;"
+          style="display: inline; float: left"
           size="mini"
-          @click="showDialogPwd=true"
-        >忘记密码?</el-button>
+          @click="showDialogPwd = true"
+          >忘记密码?</el-button
+        >
         <el-button
           class="thirdparty-button"
           type="success"
-          style="display: inline;float: right;"
+          style="display: inline; float: right"
           size="mini"
-          @click="showDialog=true"
-        >注册</el-button>
+          @click="showDialog = true"
+          >注册</el-button
+        >
       </div>
     </el-form>
     <el-dialog :title="'注册'" :visible.sync="showDialog">
       <el-form ref="insertForm" :model="insertForm" :rules="emailRules">
-        <el-form-item style="background-color: #333;" prop="name">
+        <el-form-item style="background-color: #333" prop="name">
           <span class="svg-container">
             <svg-icon name="user" />
           </span>
@@ -102,7 +107,7 @@
             placeholder="输入用户名"
           />
         </el-form-item>
-        <el-form-item style="background-color: #333;" prop="password">
+        <el-form-item style="background-color: #333" prop="password">
           <span class="svg-container">
             <svg-icon name="password" />
           </span>
@@ -116,10 +121,12 @@
             autocomplete="on"
           />
           <span class="show-pwd" @click="showPwdTwo">
-            <svg-icon :name="passwordTypeTwo === 'password' ? 'eye-off' : 'eye-on'" />
+            <svg-icon
+              :name="passwordTypeTwo === 'password' ? 'eye-off' : 'eye-on'"
+            />
           </span>
         </el-form-item>
-        <el-form-item style="background-color: #333;" prop="email">
+        <el-form-item style="background-color: #333" prop="email">
           <span class="svg-container">
             <i class="el-icon-message"></i>
           </span>
@@ -135,14 +142,15 @@
         <el-button
           :loading="insertLoading"
           type="primary"
-          style="width:100%; margin-bottom:30px;"
+          style="width: 100%; margin-bottom: 30px"
           @click.native.prevent="insert"
-        >注册</el-button>
+          >注册</el-button
+        >
       </el-form>
     </el-dialog>
     <el-dialog :title="'找回密码'" :visible.sync="showDialogPwd">
       <el-form ref="retrieveForm" :model="retrieveForm" :rules="retrieveRules">
-        <el-form-item style="background-color: #333;" prop="email">
+        <el-form-item style="background-color: #333" prop="email">
           <el-row :gutter="20">
             <el-col :span="14">
               <span class="svg-container">
@@ -153,7 +161,7 @@
                 v-model="retrieveForm.email"
                 name="email"
                 type="text"
-                style="width: 80%;"
+                style="width: 80%"
                 autocomplete="on"
                 placeholder="请输入您的邮箱地址"
               />
@@ -162,13 +170,14 @@
               <el-button
                 :disabled="getCodedisabled"
                 type="primary"
-                style="display: inline;float: right; height: 52px;"
+                style="display: inline; float: right; height: 52px"
                 @click.native.prevent="getCode"
-              >发送验证码到邮箱</el-button>
+                >发送验证码到邮箱</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item style="background-color: #333;" prop="code">
+        <el-form-item style="background-color: #333" prop="code">
           <span class="svg-container">
             <i class="el-icon-chat-line-square"></i>
           </span>
@@ -180,7 +189,7 @@
             placeholder="请输入收到的code"
           />
         </el-form-item>
-        <el-form-item style="background-color: #333;" prop="password">
+        <el-form-item style="background-color: #333" prop="password">
           <span class="svg-container">
             <svg-icon name="password" />
           </span>
@@ -194,15 +203,18 @@
             autocomplete="on"
           />
           <span class="show-pwd" @click="showPwd3">
-            <svg-icon :name="passwordType3 === 'password' ? 'eye-off' : 'eye-on'" />
+            <svg-icon
+              :name="passwordType3 === 'password' ? 'eye-off' : 'eye-on'"
+            />
           </span>
         </el-form-item>
         <el-button
           :loading="insertLoading"
           type="primary"
-          style="width:100%; margin-bottom:30px;"
+          style="width: 100%; margin-bottom: 30px"
           @click.native.prevent="retrievePwd"
-        >提交</el-button>
+          >提交</el-button
+        >
       </el-form>
     </el-dialog>
   </div>
@@ -219,6 +231,7 @@ import { captchaCode, validEmailCode, getEmailCode } from "@/api/auth/user";
 import BaseUrl from "@/config/baseUrl";
 import { setToken } from "@/utils/cookies";
 import { resetRouter } from "@/router";
+import { StaticStr } from '@/config/StaticStr';
 
 @Component({
   name: "Login",
@@ -228,7 +241,7 @@ export default class extends Vue {
    * 验证用户名
    */
   private validateUsername = (rule: any, value: string, callback: Function) => {
-    if (value.length < 5) {
+    if (value.length < 6) {
       callback(new Error("请检查用户名是否合法(最低6位)"));
     } else {
       callback();
@@ -239,7 +252,7 @@ export default class extends Vue {
    */
   private validatePassword = (rule: any, value: string, callback: Function) => {
     if (value.length < 6) {
-      callback(new Error("请检查用户名是否合法(最低6位)"));
+      callback(new Error("请检查密码是否合法(最低6位)"));
     } else {
       callback();
     }
@@ -273,13 +286,13 @@ export default class extends Vue {
   };
   private emailRules = {
     name: [{ validator: this.validateUsername, trigger: "blur" }],
-    password: [{ required: true, message: "必填项", trigger: "blur" }],
+    password: [{ validator: this.validatePassword, trigger: "blur" }],
     email: [{ required: true, message: "必填项", trigger: "blur" }],
   };
   private retrieveRules = {
     email: [{ required: true, message: "必填项", trigger: "blur" }],
     code: [{ required: true, message: "必填项", trigger: "blur" }],
-    password: [{ required: true, message: "必填项", trigger: "blur" }],
+    password: [{ validator: this.validatePassword, trigger: "blur" }],
   };
   /**
    * 初始化定义变量
@@ -335,13 +348,16 @@ export default class extends Vue {
    */
   private async getCode() {
     const { data } = await getEmailCode({ email: this.retrieveForm.email });
-    this.getCodedisabled = true;
-    this.$notify({
-      title: "成功",
-      message: "获取成功请查收邮件",
-      type: "success",
-      duration: 2000,
-    });
+    
+    if (data == '') {
+      this.getCodedisabled = true;
+      this.$notify({
+        title: StaticStr.SUCCESS_CODE_CREATE,
+        message: "获取成功请查收邮件",
+        type: "success",
+        duration: StaticStr.CODE_TIME,
+      });
+    }
   }
   /**
    * 获取图形验证码
@@ -418,7 +434,11 @@ export default class extends Vue {
     (this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
       if (valid) {
         startLoading(this.loading);
-        await UserModule.Login(this.loginForm);
+        const data = await UserModule.Login(this.loginForm);
+        if (data) {
+          // err 自动重新获取验证码
+          this.initCaptchaCode();
+        }
         //   path: this.redirect || "/dashboard/dashboard",
         this.$router
           .push({
