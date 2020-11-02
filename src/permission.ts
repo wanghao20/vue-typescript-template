@@ -5,7 +5,7 @@ import { Message } from 'element-ui'
 import { Route } from 'vue-router'
 import { UserModule } from '@/store/modules/user'
 import { Mod } from './entity/auth/Mod'
-import { findRootId, findNodes } from './utils/common/utils'
+import { findRootId, findNodes, takeOutNodes } from './utils/common/utils'
 import Layout from '@/layout/index.vue'
 /**
  * 进度条配置
@@ -26,6 +26,16 @@ const loadView = (viewPath: string) => {
     return () => import(`@/views/${viewPath}`)
 }
 /**
+ * 动态获取路由
+ */
+const getRouteList = (mods: any) => {
+
+    // 遍历成树形数据
+    const pNode: Mod = findRootId(mods);
+    const dataList = findNodes(mods, pNode.id);
+    return filter(dataList)
+}
+/**
  * 递归处理数据为路由数据
  * @param mods 
  */
@@ -39,7 +49,6 @@ const filter = (mods: Array<Mod>) => {
                 noCache: true,
                 alwaysShow: true
             },
-
         }
         if (data.component) {
             route.name = data.modPath
@@ -50,7 +59,6 @@ const filter = (mods: Array<Mod>) => {
                 // 将真正的布局组件赋值给它
                 route.component = Layout
                 route.redirect = data.modPath
-
             } else {
                 // 如果不是布局组件就只能是页面的引用了
                 // 利用懒加载函数将实际页面赋值给它
@@ -65,17 +73,9 @@ const filter = (mods: Array<Mod>) => {
     })
     return routeList
 }
+
 /**
- * 动态获取路由
- */
-const getRouteList = (mods: any) => {
-    // 遍历成树形数据
-    const pNode: Mod = findRootId(mods);
-    const dataList = findNodes(mods, pNode.id);
-    return filter(dataList)
-}
-/**
- * 获取成菜单栏数据
+ * 获取成菜单栏数据(解决缩小菜单时不显示图标问题单独获取菜单处理)
  * @param mods 
  */
 const getRouteListfilterMenu = (mods: any) => {

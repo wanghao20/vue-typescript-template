@@ -11,23 +11,23 @@ export const getRolesPage = (params: any) =>
         params
     });
 export const createRole = (data: any) =>
-request({
-    url: '/auth/role',
-    method: 'post',
-    data
-});
+    request({
+        url: '/auth/role',
+        method: 'post',
+        data
+    });
 export const updateRole = (data: any) =>
-request({
-    url: '/auth/role',
-    method: 'put',
-    data
-});
+    request({
+        url: '/auth/role',
+        method: 'put',
+        data
+    });
 export const delectRole = (data: any) =>
-request({
-    url: '/auth/role',
-    method: 'delete',
-    data
-});
+    request({
+        url: '/auth/role',
+        method: 'delete',
+        data
+    });
 export const getRolesMods = (params: any) =>
     request({
         url: '/auth/roleMods',

@@ -61,7 +61,7 @@ class User extends VuexModule implements IUserState {
         let { username, password, captchaCode, time } = userInfo
         username = username.trim()
         const { data } = await login({ username, password, captchaCode, time })
-        if(data===undefined){
+        if (data === undefined) {
             return true;
         }
         setToken(data.accessToken)
@@ -111,11 +111,11 @@ class User extends VuexModule implements IUserState {
         this.SET_ID(id)
         // 用户名称
         this.SET_NAME(name)
-        if(avatar===null){
+        if (avatar === null) {
             // 设置默认头像
-            avatar=StaticStr.AVATAR
+            avatar = StaticStr.AVATAR
         }
-        
+
         // 头像
         this.SET_AVATAR(avatar)
         // mods

@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export const getCfgList = () =>
+export const getCfgList = (params: any) =>
     request({
         url: '/cfg/cfg',
         method: 'get',
+        params
     });
 export const cfgByCfgId = (params: any) =>
     request({

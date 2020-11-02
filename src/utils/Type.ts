@@ -8,25 +8,25 @@
  *请求处理返回类型
  */
 type ResData = {
-	/**
-	 * 状态码
-	 */
+    /**
+     * 状态码
+     */
     code: number;
-	/**
-	 * 对称加密key
-	 */
+    /**
+     * 对称加密key
+     */
     // key: string;
-	/**
-	 * 消息提示
-	 */
+    /**
+     * 消息提示
+     */
     msg?: string;
-	/**
-	 * 数据体
-	 */
+    /**
+     * 数据体
+     */
     data?: any;
-	/**
-	 * 错误体
-	 */
+    /**
+     * 错误体
+     */
     err?: any;
 };
 
@@ -36,13 +36,13 @@ type ResData = {
  *操作记录
  */
 type TbLog = {
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     id?: string;
-	/**
-	 * 操作用户id
-	 */
+    /**
+     * 操作用户id
+     */
     userId?: string;
     /**
      * 操作时间
@@ -52,22 +52,22 @@ type TbLog = {
      * 操作类型:查询、新增、删除、更新
      */
     operationType?: string;
-	/**
-	 * 操作地址
-	 */
+    /**
+     * 操作地址
+     */
     operationUrl?: string;
-	/**
-	 * 操作ip
-	 */
+    /**
+     * 操作ip
+     */
     ip?: string;
 };
 /**
  *分页数据
  */
 type Paging = {
-	/**
-	 * 当前页面
-	 */
+    /**
+     * 当前页面
+     */
     page: number;
     /**
      * 分页大小
@@ -81,4 +81,4 @@ type Paging = {
 
 };
 
-export { Paging,  ResData, TbLog };
+export { Paging, ResData, TbLog };

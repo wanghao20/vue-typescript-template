@@ -68,7 +68,7 @@ export const insert = (data: any) =>
         method: 'post',
         data
     })
-    export const systemLog = (params: any) =>
+export const systemLog = (params: any) =>
     request({
         url: '/auth/systemLog',
         method: 'get',

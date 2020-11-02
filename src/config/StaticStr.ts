@@ -36,6 +36,6 @@ export class StaticStr {
     /**
      * 配置文件加密密钥
      */
-    public static CFG_KEY = "#2020/10/28_";
+    public static CFG_KEY = "#2020/10/28_Put_Your_Password_Here";
 
 }

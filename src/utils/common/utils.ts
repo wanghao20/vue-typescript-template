@@ -129,17 +129,53 @@ export const findNodes = (mods: Array<Mod>, pId?: string) => {
         return Number(a.createdTime) - Number(b.createdTime);
     });
     let nodes: Array<Mod> = [];
-    mods.forEach((mod, index) => {
+    mods.forEach((mod) => {
         if (mod.pId == pId) {
             if (isChildrenBypId(mods, mod.id)) {
-                mod.children = findNodes(mods, mod.id);
+                const data = findNodes(mods, mod.id);
+                mod.children = data;
             }
             nodes.push(mod);
-            mods.slice(index);
         }
     });
     return nodes;
 }
+
+/**
+ * 传入有子节点模块数组判断子节点是否存在参数二中,不存在剔除返回
+ */
+export const takeOutNodes = (mods: Array<Mod>) => {
+    let newNode = Array.from(mods)
+    mods.forEach((mod) => {
+        if (mod.children.length > 0) {
+            // 有子节点去过滤一次
+            mod.children = findNodesTakeOut(mod.children, newNode)
+        }
+        // 没有子节点判断新数组中是否存在不存在则删除
+        if (newNode.indexOf(mod) === -1) {
+            newNode = newNode.filter(({ id }) => id !== mod.id);
+        }
+    });
+    return newNode;
+}
+/**
+ * name
+ */
+const findNodesTakeOut = (mods: Array<Mod>, newNode: Array<Mod>,) => {
+    const data: Array<Mod> = []
+    mods.forEach((mod) => {
+        if (mod.children.length > 0) {
+            // 有子节点去过滤一次
+            findNodesTakeOut(mod.children, newNode)
+        }
+        // 没有子节点判断新数组中是否存在存在则添加到children
+        if (newNode.indexOf(mod) !== -1) {
+            data.push(mod)
+        }
+    });
+    return data;
+}
+
 /**
  * 判断当前node是否存在子节点
  */
@@ -151,3 +187,47 @@ export const isChildrenBypId = (mods: Array<Mod>, pId?: string) => {
     }
     return false;
 }
+/**
+ * 拷贝对象类型
+ * @param obj 
+ */
+export const deepClone = (obj: any) =>{
+    let copy:any=null;
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+  
+    // Handle Date
+    if (obj instanceof Date) {
+      copy = new Date();
+      copy.setTime(obj.getTime());
+      return copy;
+    }
+  
+    // Handle Array
+    if (obj instanceof Array) {
+      copy = [];
+      for (var i = 0, len = obj.length; i < len; i++) {
+          copy[i] = deepClone(obj[i]);
+      }
+      return copy;
+    }
+  
+    // Handle Function
+    if (obj instanceof Function) {
+      copy = function() {
+        return obj.apply(arguments);
+      }
+      return copy;
+    }
+  
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = deepClone(obj[attr]);
+        }
+        return copy;
+    }
+  
+    throw new Error("Unable to copy obj as type isn't supported " + obj.constructor.name);
+  }

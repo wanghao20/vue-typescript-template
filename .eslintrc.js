@@ -14,7 +14,7 @@ module.exports = {
   ],
   rules: {
     "no-alert": 0, //禁止使用alert confirm prompt
-    "no-array-constructor": 2, //禁止使用数组构造器
+    "no-array-constructor": 0, //禁止使用数组构造器
     "no-bitwise": 0, //禁止使用按位运算符
     "no-caller": 1, //禁止使用arguments.caller或arguments.callee
     "no-catch-shadow": 2, //禁止catch子句参数与外部作用域变量同名
@@ -36,7 +36,7 @@ module.exports = {
     "no-empty-character-class": 2, //正则表达式中的[]内容不能为空
     "no-labels": 1, //禁止使用空label
     "no-eq-null": 0, //禁止对null使用==或!=运算符
-    "no-eval": 1, //禁止使用eval
+    "no-eval": 0, //禁止使用eval
     "no-ex-assign": 2, //禁止给catch语句中的异常参数赋值
     "no-extend-native": 2, //禁止扩展native对象
     "no-extra-bind": 2, //禁止不必要的函数绑定
@@ -121,7 +121,6 @@ module.exports = {
       "location": "start"
     }], //不能有警告备注
     "no-with": 2, //禁用with
-
     "array-bracket-spacing": [2, "never"], //是否允许非空数组里面有多余的空格
     "arrow-parens": 0, //箭头函数用小括号括起来
     "arrow-spacing": 0, //=>的前/后括号
@@ -129,7 +128,7 @@ module.exports = {
     "block-scoped-var": 0, //块语句中使用var
     "brace-style": [0, "1tbs"], //大括号风格
     "callback-return": 0, //避免多次调用回调什么的
-    "camelcase": 2, //强制驼峰法命名
+    "camelcase": 0, //强制驼峰法命名
     "comma-dangle": [0, "never"], //对象字面量项尾不能有逗号
     "comma-spacing": 0, //逗号前后的空格
     "comma-style": [2, "last"], //逗号风格，换行时在行首还是行尾
@@ -171,7 +170,7 @@ module.exports = {
     "object-shorthand": 0, //强制对象字面量缩写语法
     "one-var": 1, //连续声明
     "operator-assignment": [0, "always"], //赋值运算符 += -=什么的
-    "operator-linebreak": [2, "after"], //换行时运算符在行尾还是行首
+    "operator-linebreak": [0, "after"], //换行时运算符在行尾还是行首
     "padded-blocks": 0, //块语句内行首行尾是否要空行
     "prefer-const": 0, //首选const
     "prefer-spread": 0, //首选展开运算

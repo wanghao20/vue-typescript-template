@@ -63,17 +63,28 @@ export class Encryption {
     //     return encrypted;
     // }
 
+
     /**
      * 对称加密
      * AES_128_CBC 加密
      * @param data 加密数据体
      * @return base64
      */
-    public aesEncrypt(data: string, key: string) {
+    public aesEncrypt(data: any, key: string) {
         //AES对称加密
-        const cipher = crypto.createCipher('aes192', key);//使用aes192加密
-        const enc = cipher.update(data, "utf8", "hex");//编码方式从utf-8转为hex;
-        return enc
+        try {
+            key = crypto.createHash('sha256').update(String(key)).digest('base64').substr(0, 32)
+            let iv = crypto.randomBytes(16);
+            let cipher = crypto.createCipheriv("aes-256-ctr", key, iv);
+            let encrypted: any = cipher.update(data);
+            encrypted = Buffer.concat([encrypted, cipher.final()]);
+            return iv.toString('hex') + ':' + encrypted.toString('hex');
+        } catch (error) {
+            console.log(error);
+            console.log("AES对称加密错误");
+
+        }
+
     }
 
     /**
@@ -81,14 +92,22 @@ export class Encryption {
      * @param encrypt 解密数据体
      * @return utf8
      */
-    public aesDecrypt(encrypt: string, key: any) {
-        
+    public aesDecrypt(encrypt: any, key: any) {
         //AES对称解密
-        const decipher = crypto.createDecipher('aes192', key);
+        try {
+            key = crypto.createHash('sha256').update(String(key)).digest('base64').substr(0, 32)
+            let textParts = encrypt.split(':');
+            let iv = Buffer.from(textParts.shift(), 'hex');
+            let encryptedText = Buffer.from(textParts.join(':'), 'hex');
+            let decipher = crypto.createDecipheriv("aes-256-ctr", key, iv);
+            let decrypted = decipher.update(encryptedText);
+            decrypted = Buffer.concat([decrypted, decipher.final()]);
+            return decrypted.toString();
+        } catch (error) {
+            console.log("AES对称解密错误");
 
-        let dec = decipher.update(encrypt, "hex", "utf8");
+        }
 
-        return dec;
     }
 }
 export const encryption = new Encryption();
