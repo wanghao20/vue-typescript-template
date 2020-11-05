@@ -420,8 +420,9 @@ export default class extends Vue {
      */
     private handleDownload() {
         this.downloadLoading = true;
-        const tHeader = ["gameName", "title", "type", "importance", "status"];
-        const filterVal = ["gameName", "title", "type", "importance", "status"];
+        const keys = Object.keys(this.list[0]);
+        const tHeader = keys;
+        const filterVal = keys;
         const data = formatJson(filterVal, this.list);
         exportJson2Excel(tHeader, data, "table-list");
         this.downloadLoading = false;

@@ -429,6 +429,7 @@ export default class extends Vue {
         cfgName: [{ required: true, message: "必选项", trigger: "change" }],
         version: [{ required: true, message: "必选项", trigger: "change" }],
     };
+    private historyData: any[] = [];
     /**
      * 生命周期方法
      * 在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
@@ -451,6 +452,12 @@ export default class extends Vue {
      */
     historyClick(row: any) {
         this.tempCfgData = row;
+        this.historyData.forEach((element) => {
+            if (element.id === row.id) {
+                this.tempCfgData = element;
+            }
+        });
+
         try {
             this.tempCfgData.body = JSON.parse(this.tempCfgData.body);
         } catch (error) {}
@@ -682,9 +689,9 @@ export default class extends Vue {
         return objValue;
     }
     /**
-  verifyExcel(header: string[], results: any[]) {
-   * 验证属性设置
-   */
+     verifyExcel(header: string[], results: any[]) {
+     * 验证属性设置
+    */
     private verifyExcel(header: string[], results: any[]) {
         // header[0] 多语言标记
         // cn，默认值/en/。。。其他
@@ -934,11 +941,13 @@ export default class extends Vue {
         this.dialogFormVisible = true;
         // 获取历史版本
         const data = await cfgByCfgId({ cfgId: row.cfgId });
+        this.historyData = data.data;
         this.mergeValue = this.tempCfgData.merge === 1;
         this.encryptionValue = this.tempCfgData.encryption === 1;
         this.activities = [];
-        data.data.forEach((v: Cfg) => {
+        this.historyData.forEach((v: Cfg) => {
             const activitie = {
+                id: v.id,
                 color: "#dfe4ed",
                 createdTime: v.createdTime,
                 version: v.version,
@@ -953,10 +962,10 @@ export default class extends Vue {
     }
 
     /**
-     * 删除角色信息
+     * 删除信息
      */
     private async handleDelete(row: any, index: number) {
-        await delectCfg(row);
+        await delectCfg({ id: row.id ,cfgId:row.cfgId});
         this.$notify({
             title: StaticStr.SUCCESS_CODE_CREATE,
             message: StaticStr.SUCCESS_CODE_DEL_STR,

@@ -5,7 +5,7 @@ import { Message } from 'element-ui'
 import { Route } from 'vue-router'
 import { UserModule } from '@/store/modules/user'
 import { Mod } from './entity/auth/Mod'
-import { findRootId, findNodes, takeOutNodes } from './utils/common/utils'
+import { findRootId, findNodes } from './utils/common/utils'
 import Layout from '@/layout/index.vue'
 /**
  * 进度条配置
