@@ -1,4 +1,12 @@
-![Image text]()
+
+## 项目截图
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/0.png)
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/1.png)
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/2.png)
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/3.png)
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/4.png)
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/5.png)
+![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/6.png)
 
 
 ## 前序准备
@@ -82,6 +90,7 @@ yarn svg
 
 看这里 [Configuration Reference](https://cli.vuejs.org/config/).
 
+## 有疑问可加qq2319512282
 ## 浏览器支持
 
 Modern browsers and Internet Explorer 10+.
