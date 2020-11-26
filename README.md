@@ -3,7 +3,7 @@
 ![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/0.png)
 ![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/1.png)
 ![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/2.png)
-![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/3.png)
+
 ![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/4.png)
 ![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/5.png)
 ![Image text](https://github.com/wanghao20/vue-typescript-template/blob/master/REimg/6.png)
